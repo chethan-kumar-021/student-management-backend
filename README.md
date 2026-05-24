@@ -29,6 +29,7 @@ A beginner-friendly Student Management Backend System built using Flask, SQLAlch
 
 # Project Structure
 
+```text
 backend/
 │
 ├── app/
@@ -41,6 +42,7 @@ backend/
 ├── requirements.txt
 ├── run.py
 └── README.md
+```
 
 ---
 

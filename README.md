@@ -94,15 +94,15 @@ http://127.0.0.1:5000
 
 ---
 
-# API Endpoints
+## API Endpoints
 
-| Method | Endpoint       | Description        |
-|--------|----------------|--------------------|
-| POST   | /students      | Create Student     |
-| GET    | /students      | Get All Students   |
-| GET    | /students/<id> | Get Single Student |
-| PUT    | /students/<id> | Update Student     |
-| DELETE | /students/<id> | Delete Student     |
+| Method | Endpoint | Description |
+|--------|-----------|-------------|
+| POST | /students | Create Student |
+| GET | /students | Get All Students |
+| GET | /students/<id> | Get Single Student |
+| PUT | /students/<id> | Update Student |
+| DELETE | /students/<id> | Delete Student |
 
 ---
 

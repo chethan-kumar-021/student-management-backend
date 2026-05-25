@@ -5,6 +5,17 @@ from app.models.student_model import Student
 
 student_bp = Blueprint("student_bp", __name__)
 
+# VALID BRANCHES
+
+valid_branches = [
+    "CSE",
+    "ECE",
+    "IT",
+    "MECH",
+    "EEE",
+    "CIVIL"
+]
+
 # CREATE STUDENT API
 @student_bp.route("/students", methods=["POST"])
 def add_student():
@@ -13,7 +24,7 @@ def add_student():
 
         data = request.get_json()
 
-        # VALIDATIONS
+        # REQUIRED FIELD VALIDATIONS
 
         if not data.get("city_name"):
             return jsonify({
@@ -45,6 +56,40 @@ def add_student():
                 "error": "Branch is required"
             }), 400
 
+        # GMAIL VALIDATION
+
+        gmail = data.get("gmail")
+
+        if not gmail.endswith("@gmail.com"):
+
+            return jsonify({
+                "error": "Only Gmail accounts are allowed"
+            }), 400
+
+        # AGE INTEGER VALIDATION
+
+        if not isinstance(data.get("age"), int):
+
+            return jsonify({
+                "error": "Age must be an integer"
+            }), 400
+
+        # AGE RANGE VALIDATION
+
+        if data.get("age") < 1 or data.get("age") > 100:
+
+            return jsonify({
+                "error": "Age must be between 1 and 100"
+            }), 400
+
+        # BRANCH VALIDATION
+
+        if data.get("branch") not in valid_branches:
+
+            return jsonify({
+                "error": "Invalid branch"
+            }), 400
+
         # CREATE STUDENT OBJECT
 
         student = Student(
@@ -72,7 +117,8 @@ def add_student():
         return jsonify({
             "error": str(e)
         }), 500
-        
+
+
 # GET ALL STUDENTS API
 @student_bp.route("/students", methods=["GET"])
 def get_students():
@@ -106,7 +152,8 @@ def get_students():
         return jsonify({
             "error": str(e)
         }), 500
-        
+
+
 # GET SINGLE STUDENT API
 @student_bp.route("/students/<int:id>", methods=["GET"])
 def get_single_student(id):
@@ -142,7 +189,8 @@ def get_single_student(id):
         return jsonify({
             "error": str(e)
         }), 500
-        
+
+
 # UPDATE STUDENT API
 @student_bp.route("/students/<int:id>", methods=["PUT"])
 def update_student(id):
@@ -164,6 +212,44 @@ def update_student(id):
         # GET REQUEST DATA
 
         data = request.get_json()
+
+        # GMAIL VALIDATION
+
+        if "gmail" in data:
+
+            gmail = data.get("gmail")
+
+            if not gmail.endswith("@gmail.com"):
+
+                return jsonify({
+                    "error": "Only Gmail accounts are allowed"
+                }), 400
+
+        # AGE VALIDATION
+
+        if "age" in data:
+
+            if not isinstance(data.get("age"), int):
+
+                return jsonify({
+                    "error": "Age must be an integer"
+                }), 400
+
+            if data.get("age") <= 0:
+
+                return jsonify({
+                    "error": "Age must be greater than 0"
+                }), 400
+
+        # BRANCH VALIDATION
+
+        if "branch" in data:
+
+            if data.get("branch") not in valid_branches:
+
+                return jsonify({
+                    "error": "Invalid branch"
+                }), 400
 
         # UPDATE VALUES
 
@@ -210,7 +296,8 @@ def update_student(id):
         return jsonify({
             "error": str(e)
         }), 500
-        
+
+
 # DELETE STUDENT API
 @student_bp.route("/students/<int:id>", methods=["DELETE"])
 def delete_student(id):
